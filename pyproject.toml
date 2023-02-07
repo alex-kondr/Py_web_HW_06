@@ -9,7 +9,11 @@ packages = [{include = "py_web_hw_06"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+faker = "^16.6.1"
 
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.1"
 
 [build-system]
 requires = ["poetry-core"]

@@ -34,7 +34,7 @@ def create_task(conn, task):
     """
 
     sql = ''' 
-    INSERT INTO tasks(name,priority,status,projects_id,begin_date,ens_date) VALUES(?,?,?,?,?,?);
+    INSERT INTO tasks(name,priority,status,projects_id,begin_date,end_date) VALUES(?,?,?,?,?,?);
     '''
     cur = conn.cursor()
     try:

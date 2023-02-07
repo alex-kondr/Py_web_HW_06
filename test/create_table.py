@@ -15,7 +15,7 @@ def create_table(conn, create_table_sql):
 if __name__ == "__main__":
     sql_create_projects_table = """
     CREATE TABLE IF NOT EXISTS projects (
-        id integer PRIMERY KEY,
+        id integer PRIMARY KEY AUTOINCREMENT,
         name text NOT NULL,
         begin_date text,
         end_date text
@@ -24,13 +24,13 @@ if __name__ == "__main__":
     
     sql_create_tasks_table = """
     CREATE TABLE IF NOT EXISTS tasks (
-        id integer PRIMARY KEY,
+        id integer PRIMARY KEY AUTOINCREMENT,
         name text NOT NULL,
         priority integet,
         projects_id integer NOT NULL,
         status Boolean default False,
         begin_date text NOT NULL,
-        ens_date text NOT NULL,
+        end_date text NOT NULL,
         FOREIGN KEY (projects_id) REFERENCES projects (id)
     );
     """
