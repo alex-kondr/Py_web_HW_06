@@ -19,10 +19,18 @@ def execute_sql_script(sql: str) -> list:
 
 if __name__ == "__main__":
 
-    sql = """
+    sql1 = """
         SELECT COUNT(*), c.company_name
         FROM employees e
         LEFT JOIN companies c ON e.company_id = c.id
         GROUP BY c.id
-    """    
-    print(execute_sql_script(sql))
+    """
+    sql2 = """
+        SELECT c.company_name, e.employee, p.total
+        FROM companies c
+        LEFT JOIN employees e ON e.company_id = c.id
+        LEFT JOIN payments p ON p.employee_id = e.id
+        WHERE p.total > 5000 AND p.date_of LIKE '2023-07-%'
+    """
+    
+    print(execute_sql_script(sql2))
