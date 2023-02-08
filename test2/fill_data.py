@@ -11,6 +11,7 @@ DATA_BASE = "salary.db"
 
 
 def generate_fake_data(number_companies, number_employees, number_post):
+    
     fake_companies = []
     fake_employees = []
     fake_post = []
@@ -43,7 +44,7 @@ def prepare_data(companies, employees, posts) -> tuple():
     for_payments = []
     
     for month in range(1, 12+1):
-        payments_date = datetime(2023, month, randint(10, 20).date())
+        payments_date = datetime(2023, month, randint(10, 20)).date()
         
         for employee_id in range(1, NUMBER_EMPLOYEES+1):
             for_payments.append((employee_id, payments_date, randint(1000, 10000)))
@@ -58,21 +59,27 @@ def insert_data_to_db(companies, employees, payments) -> None:
         cursor = connect.cursor()
         sql_to_companies = """
             INSERT INTO companies(company_name)
-            VALUE (?)
+            VALUES (?)
         """
         cursor.executemany(sql_to_companies, companies)
         
         sql_to_employees = """
-            INSERT INTO employees(emlployee, post, company_id)
-            VALUE (?, ?, ?)
+            INSERT INTO employees(employee, post, company_id)
+            VALUES (?, ?, ?)
         """
         cursor.executemany(sql_to_employees, employees)
         
         sql_to_payments = """
             INSERT INTO payments(employee_id, date_of, total)
-            VALUE (?, ?, ?)
+            VALUES (?, ?, ?)
         """
+        cursor.executemany(sql_to_payments, payments)
+        
+        connect.commit()
     
 
 if __name__ == "__main__":
-    generate_fake_data(NUMBER_COMPANIES, NUMBER_EMPLOYEES, NUMBER_POST)
+    
+   fake_data = generate_fake_data(NUMBER_COMPANIES, NUMBER_EMPLOYEES, NUMBER_POST)
+   prepare_fake_data = prepare_data(*fake_data)
+   insert_data_to_db(*prepare_fake_data)
