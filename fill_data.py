@@ -1,6 +1,6 @@
 from datetime import date
 from faker import Faker
-from random import randint, choice, choices
+from random import randint, choices
 import sqlite3
 
 DB = "university.db"
@@ -12,10 +12,10 @@ NUMBER_SUBJECTS = 8
 NUMBER_EVALUATIONS = 20
 
 
-def generate_fake_data(
-    number_students: int, number_groups: int, number_teachers: int,
-    number_subjects: int  #, number_evaluations: int
-):
+def generate_fake_data(number_students: int, 
+                       number_groups: int, 
+                       number_teachers: int, 
+                       number_subjects: int) -> tuple(list):
     
     faker = Faker()
     
@@ -46,12 +46,14 @@ def generate_fake_data(
                      "geometry"]
     
     fake_subjects = choices(list_subjects, k=number_subjects)
-    # fake_evaluations = [randint(60, 100) for _ in range(number_evaluations)]
     
-    return fake_students, fake_groups, fake_teachers, fake_subjects #, fake_evaluations
+    return fake_students, fake_groups, fake_teachers, fake_subjects
 
 
-def prepare_data(students, groups, teachers, subjects):
+def prepare_data(students: list, 
+                 groups: list, 
+                 teachers: list, 
+                 subjects: list) -> tuple(list(tuple)):
     
     for_students = [(student, randint(1, NUMBER_GROUPS)) for student in students]    
     for_groups = [(group,) for group in groups]
@@ -60,8 +62,8 @@ def prepare_data(students, groups, teachers, subjects):
         
     for_evaluations = []
     
-    for _ in NUMBER_EVALUATIONS:        
-        for _ in NUMBER_STUDENTS:
+    for _ in range(NUMBER_EVALUATIONS):
+        for _ in range(NUMBER_STUDENTS):
             evaluation_date = date(year=2023, month=randint(1, 12), day=randint(1, 20))
             for_evaluations.append((
                 randint(60, 100), evaluation_date, 
@@ -71,7 +73,12 @@ def prepare_data(students, groups, teachers, subjects):
     return for_students, for_groups, for_teachers, for_subjects, for_evaluations
 
 
-def insert_data_to_db(students, groups, teachers, subjects, evaluations):
+def insert_data_to_db(students: list(tuple), 
+                      groups: list(tuple), 
+                      teachers: list(tuple), 
+                      subjects: list(tuple), 
+                      evaluations: list(tuple)) -> None:
+    
     with sqlite3.connect(DB) as connection:
         cursor = connection.cursor()
         
@@ -111,6 +118,4 @@ if __name__ == "__main__":
     fake_data = generate_fake_data(NUMBER_STUDENTS, NUMBER_GROUPS, NUMBER_TEACHERS, NUMBER_SUBJECTS)
     prepare_fake_data = prepare_data(*fake_data)
     insert_data_to_db(*prepare_fake_data)
-    
-    print("Uhuuu")
     

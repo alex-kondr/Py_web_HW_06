@@ -24,14 +24,15 @@ DROP TABLE IF EXISTS Subjects;
 CREATE TABLE Subjects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     Name VARCHAR(255) UNIQUE NOT NULL,
-    Teaher_id INTEGER,
-    FOREIGN KEY (Teaher_id) REFERENCES Teachers (id)
+    Teacher_id INTEGER,
+    FOREIGN KEY (Teacher_id) REFERENCES Teachers (id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS Avaluations;
-CREATE TABLE Avaluations (
+DROP TABLE IF EXISTS Evaluations;
+CREATE TABLE Evaluations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     Rating INTEGER,
     Date DATE NOT NULL,
