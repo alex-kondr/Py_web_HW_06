@@ -9,6 +9,8 @@ def create_db(db: str, sql_script: str) -> None:
     with sqlite3.connect(db) as connection:
         cursor = connection.cursor()
         cursor.executescript(script)
+        
+
     
     
 if __name__ == "__main__":
