@@ -15,7 +15,7 @@ NUMBER_EVALUATIONS = 20
 def generate_fake_data(number_students: int, 
                        number_groups: int, 
                        number_teachers: int, 
-                       number_subjects: int) -> tuple(list):
+                       number_subjects: int) -> tuple[list]:
     
     faker = Faker()
     
@@ -46,6 +46,8 @@ def generate_fake_data(number_students: int,
                      "geometry"]
     
     fake_subjects = choices(list_subjects, k=number_subjects)
+    # print(f"{fake_subjects=}")
+    # quit()
     
     return fake_students, fake_groups, fake_teachers, fake_subjects
 
@@ -53,7 +55,7 @@ def generate_fake_data(number_students: int,
 def prepare_data(students: list, 
                  groups: list, 
                  teachers: list, 
-                 subjects: list) -> tuple(list(tuple)):
+                 subjects: list) -> tuple[list[tuple]]:
     
     for_students = [(student, randint(1, NUMBER_GROUPS)) for student in students]    
     for_groups = [(group,) for group in groups]
@@ -62,22 +64,23 @@ def prepare_data(students: list,
         
     for_evaluations = []
     
-    for _ in range(NUMBER_EVALUATIONS):
-        for _ in range(NUMBER_STUDENTS):
+        
+    for ns in range(1, NUMBER_STUDENTS+1):
+        for _ in range(NUMBER_EVALUATIONS):
             evaluation_date = date(year=2023, month=randint(1, 12), day=randint(1, 20))
             for_evaluations.append((
                 randint(60, 100), evaluation_date, 
-                randint(1, NUMBER_STUDENTS), randint(1, NUMBER_SUBJECTS)
+                ns, randint(1, NUMBER_SUBJECTS)
             ))
             
     return for_students, for_groups, for_teachers, for_subjects, for_evaluations
 
 
-def insert_data_to_db(students: list(tuple), 
-                      groups: list(tuple), 
-                      teachers: list(tuple), 
-                      subjects: list(tuple), 
-                      evaluations: list(tuple)) -> None:
+def insert_data_to_db(students: list[tuple], 
+                      groups: list[tuple], 
+                      teachers: list[tuple], 
+                      subjects: list[tuple], 
+                      evaluations: list[tuple]) -> None:
     
     with sqlite3.connect(DB) as connection:
         cursor = connection.cursor()
