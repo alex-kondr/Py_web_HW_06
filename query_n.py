@@ -2,7 +2,7 @@ import sqlite3
 
 
 DB = "university.db"
-QUERY_NUMBER = 2
+QUERY_NUMBER = 5
 QUERY_SCRIPT = f"query/query_{QUERY_NUMBER}.sql"
 
 

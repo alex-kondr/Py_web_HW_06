@@ -1,6 +1,6 @@
 from datetime import date
 from faker import Faker
-from random import randint, choices
+from random import randint, sample
 import sqlite3
 
 DB = "university.db"
@@ -45,7 +45,7 @@ def generate_fake_data(number_students: int,
                      "algebra",
                      "geometry"]
     
-    fake_subjects = choices(list_subjects, k=number_subjects)
+    fake_subjects = sample(list_subjects, k=number_subjects)
     # print(f"{fake_subjects=}")
     # quit()
     
